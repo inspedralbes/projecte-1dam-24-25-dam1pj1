@@ -2,5 +2,4 @@
 
 Grupo 1 : Jordi y Fiona 
 
-## Diagrama de Casos d'us
-![Diagrama de casos d'us](Diagrames/Diagrama de casos d'us.drawio.png)
+
