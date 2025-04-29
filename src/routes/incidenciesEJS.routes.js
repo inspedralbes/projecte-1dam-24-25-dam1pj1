@@ -8,7 +8,6 @@ const TipusIncidencia = require('../models/TipusIncidencies');
 
 // Llistar categories
 router.get('/', async (req, res) => {
-  console.log("hola")
   try {
     const incidencies = await Incidencia.findAll({
       include: [
@@ -22,7 +21,6 @@ router.get('/', async (req, res) => {
         }
       ]
     });
-    console.log(incidencies);
     res.render('incidencies/list', { incidencies });
   } catch (error) {
     res.status(500).send('Error al recuperar incidencies');
@@ -45,18 +43,15 @@ router.get('/new', async (req, res) => {  // Cambié aquí para hacer la funció
 // Crear categoria
 router.post('/create', async (req, res) => {
   try {
-    const { descripcion, estado, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
-
-    const moment = require('moment-timezone');
-    const dataCreacio = moment().tz('Europe/Madrid').toDate();
-
+    console.log("🤖 Datos del form:", req.body);  
+    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
     const incidencia = await Incidencia.create({
-      descripcion,
-      usuari_id = 1,
-      estado,
+      descripcio,
+      usuari_id: 1,
+      estat,
       prioridad,
       id_dpt,
-      dataCreacio,
+      data_creacio: new Date(),
       tecnic_id,
       id_tipus,
     });
@@ -91,26 +86,47 @@ router.get('/:id/edit', async (req, res) => {
 // Actualitzar categoria
 router.post('/:id/update', async (req, res) => {
   try {
-    const { name } = req.body;
-    const incidencia = await Category.findByPk(req.params.id);
-    if (!incidencia) return res.status(404).send('Incidència no trobada');
-    incidencia.name = name;
+    console.log("entra al try");
+    const { id_dpt, tecnic_id, id_tipus, descripcio, estat, prioridad } = req.body;
+
+    const incidencia = await Incidencia.findByPk(req.params.id);  
+    if (!incidencia) {
+      return res.status(404).send('Incidència no trobada');
+    }
+
+    incidencia.id_dpt = id_dpt;
+    incidencia.tecnic_id = tecnic_id;
+    incidencia.id_tipus = id_tipus;
+    incidencia.descripcio = descripcio;
+    incidencia.estat = estat;
+    incidencia.prioridad = prioridad;
+
+    // Guardando los cambios
     await incidencia.save();
+
+    // Redirige a la lista de incidencias
     res.redirect('/incidencies');
   } catch (error) {
-    res.status(500).send('Error al actualitzar la incidència');
+    console.error('💥 Error al actualizar la incidencia:', error.message);
+    res.status(500).send('Error al actualitzar la incidència' + error.message);
   }
 });
 
 // Eliminar categoria
 router.get('/:id/delete', async (req, res) => {
   try {
-    const incidencia = await Category.findByPk(req.params.id);
-    if (!incidencia) return res.status(404).send('Incidència no trobada');
+    console.log("🧨 Intentando eliminar incidencia con ID:", req.params.id);
+    const incidencia = await Incidencia.findByPk(req.params.id);
+    if (!incidencia) {
+      console.log("❌ No se encontró la incidencia");
+      return res.status(404).send('Incidència no trobada');
+    }
     await incidencia.destroy();
+    console.log("✅ Incidència eliminada correctamente");
     res.redirect('/incidencies');
   } catch (error) {
-    res.status(500).send('Error al eliminar la incidència');
+    console.error('💣 Error al eliminar la incidència', error);
+    res.status(500).send('Error al eliminar la incidència: ' + error.message);
   }
 });
 

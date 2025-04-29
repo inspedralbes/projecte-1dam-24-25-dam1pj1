@@ -88,7 +88,6 @@ const port = process.env.PORT || 3000;
         usuari_id: 1,
         tecnic_id: 1,
         id_tipus: 1,
-        data_creacio: new Date(),
         descripcio: 'Problema con el monitor',
         prioridad: 'Alta',
         estat: 'Abierta',

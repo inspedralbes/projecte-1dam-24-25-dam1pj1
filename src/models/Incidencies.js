@@ -7,13 +7,12 @@ const Incidencia = sequelize.define('Incidencia', {
   usuari_id: DataTypes.INTEGER,
   tecnic_id: DataTypes.INTEGER,
   id_tipus: DataTypes.INTEGER,
-  data_creacio: DataTypes.DATE,
   descripcio: DataTypes.STRING,
   prioridad: DataTypes.STRING,
   estat: DataTypes.STRING
 }, {
   tableName: 'INCIDENCIES', // Asegúrate que coincide con tu tabla
-  timestamps: false
+  timestamps: true
 });
 
 module.exports =  Incidencia ;
