@@ -1,0 +1,51 @@
+.moto-card {
+  transition: transform 0.3s ease-in-out;
+  height: 100%;
+}
+
+.moto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.moto-image {
+  height: 180px;
+  object-fit: cover;
+  background-color: #f8f9fa;
+}
+
+.country-flag {
+  width: 24px;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.card-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.category-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.8rem;
+}
+
+.jumbotron {
+  background-color: #343a40;
+  color: white;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+#filters {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .col-md-4 {
+    margin-bottom: 1rem;
+  }
+} 

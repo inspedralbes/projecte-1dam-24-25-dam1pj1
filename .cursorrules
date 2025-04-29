@@ -1,0 +1,82 @@
+# Cursor Rules for tutorial1DAM Project
+
+## Project Patterns
+
+### Code Organization
+- Routes should be in separate files by resource type
+- Each model gets its own file in the models directory
+- API routes use the pattern `/api/resource`
+- Web routes use the pattern `/resource`
+- Controller logic should be contained within route files
+
+### Naming Conventions
+- Models: Singular, PascalCase (e.g., `Motorcycle.js`, `Category.js`)
+- Routes: Plural, camelCase (e.g., `motorcycles.routes.js`, `categories.routes.js`)
+- API routes files: `resource.routes.js`
+- EJS routes files: `resourceEJS.routes.js`
+- EJS templates: Stored in `views/` directory, kebab-case
+
+### Database Patterns
+- Models use Sequelize ORM
+- Relationships defined in app.js
+- Environment variables for database configuration
+- Database seeding occurs in app.js
+
+### Development Workflow
+- Use `npm run dev` for development with nodemon
+- Use `docker-compose up` for containerized environment
+- Database resets on each restart (educational purpose)
+
+### UI/Frontend Patterns
+- EJS templates for server-rendered views
+- Static files served from public directory
+- Images stored in public/images
+- Basic Bootstrap styling used for consistency
+- Custom CSS in public/css/styles.css
+- JavaScript for interactivity in public/js/main.js
+- Country flags displayed using country code PNG files
+- Responsive card layout for the landing page
+
+### Landing Page Structure
+- Uses Bootstrap grid system for responsive layout
+- Card-based display for motorcycles
+- Search and filter functionality via JavaScript
+- Category badges on each card
+- Country flags shown based on the country field
+- Placeholder SVG for missing images
+
+## Project Preferences
+
+### Error Handling
+- Currently minimal, to be improved
+- Focus on educational clarity over robustness
+
+### Code Style
+- ES6+ JavaScript syntax
+- Use of async/await for asynchronous operations
+- Clear variable and function names
+- Limited comments (code should be self-explanatory)
+
+### Feature Prioritization
+1. Educational value
+2. Functional completeness
+3. Code clarity
+4. UI/UX improvements
+5. Advanced features
+
+### Technical Decisions
+- MySQL as the database
+- Sequelize as the ORM
+- Express as the web framework
+- EJS for templating
+- Node.js environment
+- Bootstrap for CSS framework
+- Vanilla JavaScript for client-side interactivity
+
+## Known Issues and Workarounds
+- Database resets on app restart (intended for educational purposes)
+- Limited error handling (to be improved)
+- Basic UI (being enhanced incrementally)
+- Missing image upload functionality (using placeholders)
+
+This file will be updated as project patterns evolve and new insights are gained. 

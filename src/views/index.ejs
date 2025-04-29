@@ -1,0 +1,49 @@
+<%- include('partials/header', { title: 'Gestor d\'Incidències' }) %>
+
+<style>
+  .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;         
+    height: 100%;             
+  }
+  .button-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;  
+    gap: 10px;              
+  }
+</style>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Gestió d'Incidències</h1>
+    <p class="lead">Consulta i administra les incidències registrades. Fes clic per veure més detalls o editar-les.</p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <!-- Columna USUARIO -->
+    <div class="col-md-6 column">
+      <h2>USUARIO</h2>
+      <div class="button-container">
+        <a href="/Incidencies" class="btn btn-primary">Veure Incidències</a>
+        <a class="btn btn-secondary" href="/incidencies/new">Crear Incidències</a>
+      </div>
+    </div>
+
+    <!-- Columna ADMIN/TECNIC -->
+    <div class="col-md-6 column">
+      <h2>ADMIN/TECNIC</h2>
+      <div class="button-container">
+        <button class="btn btn-success">Gestionar Incidències</button>
+        <button class="btn btn-warning">Editar Incidència</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+ 

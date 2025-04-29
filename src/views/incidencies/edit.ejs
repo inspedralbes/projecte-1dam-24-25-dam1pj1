@@ -1,0 +1,123 @@
+<%- include('../partials/header', { title: 'Editar incidència' }) %>
+<h1>Editar incidència</h1>
+
+<form action="/incidencies/<%= incidencia.id %>/update" method="POST">
+  <div class="mb-3">
+    <label for="id_dpt" class="form-label">Departament ID</label>
+    <input
+      type="number"
+      name="id_dpt"
+      value="<%= incidencia.id_dpt %>"
+      class="form-control"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="usuari_id" class="form-label">Usuari ID</label>
+    <input
+      type="number"
+      name="usuari_id"
+      value="<%= incidencia.usuari_id %>"
+      class="form-control"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="tecnic_id" class="form-label">Tècnic ID</label>
+    <input
+      type="number"
+      name="tecnic_id"
+      value="<%= incidencia.tecnic_id %>"
+      class="form-control"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="id_tipus" class="form-label">Tipus ID</label>
+    <input
+      type="number"
+      name="id_tipus"
+      value="<%= inci<%- include('../partials/header', { title: 'Editar incidència' }) %>
+      <h1>Editar incidència</h1>
+      
+      <form action="/incidencies/<%= incidencia.id %>/update" method="POST">
+        <div class="mb-3">
+          <label for="descripcio" class="form-label">Descripció</label>
+          <textarea
+            name="descripcio"
+            class="form-control"
+            rows="3"
+            required
+          ><%= incidencia.descripcio %></textarea>
+        </div>
+      
+        <div class="mb-3">
+          <label for="estat" class="form-label">Estat</label>
+          <select name="estat" class="form-select" required>
+            <option value="Abierta" <%= incidencia.estat === 'Abierta' ? 'selected' : '' %>>Abierta</option>
+            <option value="En progreso" <%= incidencia.estat === 'En progreso' ? 'selected' : '' %>>En progreso</option>
+            <option value="Cerrada" <%= incidencia.estat === 'Cerrada' ? 'selected' : '' %>>Cerrada</option>
+          </select>
+        </div>
+      
+        <div class="mb-3">
+          <label for="prioridad" class="form-label">Prioritat</label>
+          <select name="prioridad" class="form-select" required>
+            <option value="Alta" <%= incidencia.prioridad === 'Alta' ? 'selected' : '' %>>Alta</option>
+            <option value="Media" <%= incidencia.prioridad === 'Media' ? 'selected' : '' %>>Media</option>
+            <option value="Baixa" <%= incidencia.prioridad === 'Baixa' ? 'selected' : '' %>>Baixa</option>
+          </select>
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Actualitzar</button>
+      </form>
+      
+      <%- include('../partials/footer') %>
+      dencia.id_tipus %>"
+      class="form-control"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="data_creacio" class="form-label">Data creació</label>
+    <input
+      type="datetime-local"
+      name="data_creacio"
+      value="<%= incidencia.data_creacio.toISOString().slice(0,16) %>"
+      class="form-control"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="descripcio" class="form-label">Descripció</label>
+    <textarea
+      name="descripcio"
+      class="form-control"
+      rows="3"
+      required
+    ><%= incidencia.descripcio %></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="prioridad" class="form-label">Prioritat</label>
+    <select name="prioridad" class="form-select" required>
+      <option value="Alta" <%= incidencia.prioridad === 'Alta' ? 'selected' : '' %>>Alta</option>
+      <option value="Media" <%= incidencia.prioridad === 'Media' ? 'selected' : '' %>>Media</option>
+      <option value="Baja" <%= incidencia.prioridad === 'Baja' ? 'selected' : '' %>>Baja</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="estat" class="form-label">Estat</label>
+    <select name="estat" class="form-select" required>
+      <option value="Abierta" <%= incidencia.estat === 'Abierta' ? 'selected' : '' %>>Abierta</option>
+      <option value="En progreso" <%= incidencia.estat === 'En progreso' ? 'selected' : '' %>>En progreso</option>
+      <option value="Cerrada" <%= incidencia.estat === 'Cerrada' ? 'selected' : '' %>>Cerrada</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Actualitzar</button>
+</form>
+
+<%- include('../partials/footer') %>

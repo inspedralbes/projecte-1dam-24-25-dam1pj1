@@ -1,0 +1,64 @@
+<%- include('../partials/header', { title: 'Afegir incidència' }) %>
+<h1>Nova incidència</h1>
+
+<form action="/incidencies/create" method="POST">
+  <!-- Descripción -->
+  <div class="mb-3">
+    <label for="descripcion" class="form-label">Descripció</label>
+    <textarea name="descripcion" class="form-control" rows="3" required></textarea>
+  </div>
+
+  <!-- Estado -->
+  <div class="mb-3">
+    <label for="estado" class="form-label">Estat</label>
+    <select name="estado" class="form-select" required>
+      <option value="Abierta">Oberta</option>
+      <option value="En progreso">En progrés</option>
+      <option value="Resuelta">Resoluta</option>
+    </select>
+  </div>
+
+  <!-- Prioridad -->
+  <div class="mb-3">
+    <label for="prioridad" class="form-label">Prioritat</label>
+    <select name="prioridad" class="form-select" required>
+      <option value="Baixa">Baixa</option>
+      <option value="Mitja">Mitja</option>
+      <option value="Alta">Alta</option>
+    </select>
+  </div>
+
+  <!-- Departamento -->
+  <div class="mb-3">
+    <label for="id_dpt" class="form-label">Departament</label>
+    <select name="id_dpt" class="form-select" required>
+      <%departaments.forEach(departament => { %>
+        <option value="<%= departament.id_dpt %>"><%= departament.nom %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <!-- Técnico -->
+  <div class="mb-3">
+    <label for="tecnic_id" class="form-label">Tècnic</label>
+    <select name="tecnic_id" class="form-select" required>
+      <% tecnics.forEach(tecnic => { %>
+        <option value="<%= tecnic.id_tecnic %>"><%= tecnic.nom %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <!-- Tipo de incidencia -->
+  <div class="mb-3">
+    <label for="id_tipus" class="form-label">Tipus d'incidència</label>
+    <select name="id_tipus" class="form-select" required>
+      <% tipusIncidencia.forEach(tipus => { %>
+        <option value="<%= tipus.id_tipus %>"><%= tipus.nom %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Crear</button>
+</form>
+
+<%- include('../partials/footer') %>
