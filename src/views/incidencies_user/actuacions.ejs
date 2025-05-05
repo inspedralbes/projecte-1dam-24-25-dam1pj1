@@ -1,28 +1,30 @@
-<h1>Actuacions per a la incidència <%= incidencia.id %></h1>
+<%- include('../partials/header', { title: 'Actuacions per a la incidència ' + incidencia.id }) %>
 
-<p><strong>Descripció:</strong> <%= incidencia.descripcio %></p>
-<p><strong>Tècnic:</strong> <%= incidencia.Tecnic.nom %></p>
-<p><strong>Departament:</strong> <%= incidencia.Departament.nom %></p>
-<p><strong>Tipus d'incidència:</strong> <%= incidencia.TipusIncidencia.nom %></p>
+<h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
-<h3>Actuacions:</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Tècnic</th>
-      <th>Descripció</th>
-      <th>Data</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% actuacions.forEach(actuacio => { %>
-      <tr>
-        <td><%= actuacio.Tecnic.nom %></td>
-        <td><%= actuacio.descripcio %></td>
-        <td><%= actuacio.data_actuacio.toLocaleString() %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+<div class="mb-3">
+  <p><strong>Tècnic:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
+  <p><strong>Departament:</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
+  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencium ? incidencia.tipus_incidencium.nom : 'Sense tipus' %></p>
+</div>
+
+<h3 class="mb-3">Actuacions:</h3>
+
+<div class="list-group mb-4">
+  <% actuacions
+      .sort((a, b) => new Date(b.data_actuacio) - new Date(a.data_actuacio))
+      .forEach(actuacio => { %>
+    <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><%= actuacio.tecnic ? actuacio.tecnic.nom : 'Sense tècnic' %></h5>
+        <small class="text-muted"><%= actuacio.data_actuacio ? new Date(actuacio.data_actuacio).toLocaleString() : 'Sense data' %></small>
+      </div>
+      <p class="mb-1"><%= actuacio.descripcio %></p>
+    </div>
+  <% }) %>
+</div>
 
 <a href="/incidencies" class="btn btn-primary">Tornar a la llista d'incidències</a>
+
+
+<%- include('../partials/footer') %>

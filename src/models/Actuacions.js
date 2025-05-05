@@ -7,7 +7,11 @@ const Actuacio = sequelize.define('ACTUACIONS', {
     primaryKey: true,
     autoIncrement: true
   },
-  id_incidencia: DataTypes.INTEGER,
+  id_incidencia: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    field: 'id_incidencia' 
+  },
   tecnic_id: DataTypes.INTEGER,
   dat: DataTypes.DATE,
   descripcio: DataTypes.TEXT,
