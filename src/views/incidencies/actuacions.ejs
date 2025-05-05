@@ -1,0 +1,28 @@
+<h1>Actuacions per a la incidència <%= incidencia.id %></h1>
+
+<p><strong>Descripció:</strong> <%= incidencia.descripcio %></p>
+<p><strong>Tècnic:</strong> <%= incidencia.Tecnic.nom %></p>
+<p><strong>Departament:</strong> <%= incidencia.Departament.nom %></p>
+<p><strong>Tipus d'incidència:</strong> <%= incidencia.TipusIncidencia.nom %></p>
+
+<h3>Actuacions:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Tècnic</th>
+      <th>Descripció</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% actuacions.forEach(actuacio => { %>
+      <tr>
+        <td><%= actuacio.Tecnic.nom %></td>
+        <td><%= actuacio.descripcio %></td>
+        <td><%= actuacio.data_actuacio.toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a href="/incidencies" class="btn btn-primary">Tornar a la llista d'incidències</a>

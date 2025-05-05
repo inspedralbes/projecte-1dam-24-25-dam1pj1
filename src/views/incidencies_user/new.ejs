@@ -1,0 +1,33 @@
+<%- include('../partials/header', { title: 'Afegir incidència' }) %>
+<h1>Nova incidència</h1>
+
+<form action="/incidencies/create" method="POST">
+  <div class="mb-3">
+    <label for="descripcio" class="form-label">Descripció</label>
+    <textarea name="descripcio" class="form-control" rows="3" required></textarea>
+  </div>
+
+  <!-- Departamento -->
+  <div class="mb-3">
+    <label for="id_dpt" class="form-label">Departament</label>
+    <select name="id_dpt" class="form-select" required>
+      <%departaments.forEach(departament => { %>
+        <option value="<%= departament.id_dpt %>"><%= departament.nom %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <!-- Tipo de incidencia -->
+  <div class="mb-3">
+    <label for="id_tipus" class="form-label">Tipus d'incidència</label>
+    <select name="id_tipus" class="form-select" required>
+      <% tipusIncidencia.forEach(tipus => { %>
+        <option value="<%= tipus.id_tipus %>"><%= tipus.nom %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Crear</button>
+</form>
+
+<%- include('../partials/footer') %>

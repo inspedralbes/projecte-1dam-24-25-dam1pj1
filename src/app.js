@@ -14,7 +14,7 @@ Incidencia.belongsTo(Departament, { foreignKey: 'id_dpt' });
 Departament.hasMany(Incidencia, { foreignKey: 'id_dpt', onDelete: 'CASCADE' });
 
 
-Incidencia.belongsTo(Tecnic, { foreignKey: 'tecnic_id' });
+Incidencia.belongsTo(Tecnic, {foreignKey: 'tecnic_id',targetKey: 'id_tecnic',as: 'tecnic'});
 Tecnic.hasMany(Incidencia, { foreignKey: 'tecnic_id', onDelete: 'CASCADE' });
 
 
@@ -24,12 +24,15 @@ TipusIncidencia.hasMany(Incidencia, { foreignKey: 'id_tipus', onDelete: 'CASCADE
 Actuacio.belongsTo(Incidencia, { foreignKey: 'id_incidencia' });
 Incidencia.hasMany(Actuacio, { foreignKey: 'id_incidencia', onDelete: 'CASCADE' });
 
+Actuacio.belongsTo(Tecnic, {foreignKey: 'tecnic_id', as: 'tecnic'});
+Tecnic.hasMany(Actuacio, { foreignKey: 'tecnic_id', as: 'actuacions'});
 
 
 
 
 // Rutes EJS
 const incidenciaRoutesEJS = require('./routes/incidenciesEJS.routes');
+const incidenciaRoutesEJS_user = require('./routes/incidenciesEJS_user.routes');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +49,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Rutes 
 app.use('/incidencies', incidenciaRoutesEJS);
+app.use('/incidencies_user', incidenciaRoutesEJS_user);
 
 // Ruta d'inici
 app.get('/', async (req, res) => {
@@ -65,6 +69,15 @@ const port = process.env.PORT || 3000;
         console.error('Error al sincronizar la base de datos', error);
       });
 
+      await Departament.create({
+        nom: 'Info-1',
+        ubicacio: '2aPlanta',
+      });  
+      await Departament.create({
+        nom: 'Info-3',
+        ubicacio: '2aPlanta',
+      });  
+
     await Departament.create({
         nom: 'Info-2',
         ubicacio: '2aPlanta',
@@ -79,9 +92,20 @@ const port = process.env.PORT || 3000;
         id_dpt: Departament.id_dpt,
       });
 
+
     await TipusIncidencia.create({
-        nom: 'Problema técnico',
+        nom: 'Problema de hardware',
       });
+      await TipusIncidencia.create({
+        nom: 'Problema de software',
+      });  
+      await TipusIncidencia.create({
+        nom: 'Problema amb cablejat',
+      });
+      await TipusIncidencia.create({
+        nom: 'Problema amb conexio',
+      });
+
 
     await Incidencia.create({
         id_dpt: 1,
@@ -94,8 +118,8 @@ const port = process.env.PORT || 3000;
       });  
 
     await Actuacio.create({
-        id_incidencia: Incidencia.id,
-        tecnic_id: Tecnic.id_tecnic,
+        id_incidencia: 1,
+        tecnic_id: 1,
         dat: new Date(),
         descripcio: 'Reparación del monitor',
         temps_invertit: 120,

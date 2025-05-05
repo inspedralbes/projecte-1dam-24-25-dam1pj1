@@ -25,13 +25,15 @@
   </div>
 
   <div class="mb-3">
-    <label for="tecnic_id" class="form-label">Tècnic ID</label>
-    <input
-      type="number"
-      name="tecnic_id"  
-      value="<%= incidencia.tecnic_id %>"
-      class="form-control"
-    />
+    <label for="tecnic_id" class="form-label">Tècnic</label>
+    <select name="tecnic_id" class="form-select" required>
+      <option value="">-- Selecciona un tècnic --</option>
+      <% tecnics.forEach(tecnic => { %>
+        <option value="<%= tecnic.id_tecnic %>" <%= incidencia.tecnic_id === tecnic.id_tecnic ? 'selected' : '' %>>
+          <%= tecnic.nom %>
+        </option>
+      <% }); %>
+    </select>
   </div>
 
   <div class="mb-3">

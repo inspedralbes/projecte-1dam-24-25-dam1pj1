@@ -1,29 +1,52 @@
-// src/routes/categoriesEJS.routes.js
+// src/routes/incidenciesEJS.routes.js
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 const Incidencia = require('../models/Incidencies'); // Asumimos que este es el modelo correcto
 const Departament = require('../models/Departaments'); // Asumimos que este es el modelo correcto
 const Tecnic = require('../models/Tecnics'); // Asumimos que este es el modelo correcto
 const TipusIncidencia = require('../models/TipusIncidencies');
+const Actuacio = require('../models/Actuacions'); // Asegúrate que el nombre del archivo y modelo es correcto
+
 
 // Llistar categories
 router.get('/', async (req, res) => {
   try {
+    console.log("Entra acruaciones")
+    const tecnicId = req.query.tecnic_id;
+
+    const whereCondition = tecnicId
+      ? {
+          [Op.or]: [
+            { tecnic_id: tecnicId },
+            { tecnic_id: null }
+          ]
+        }
+      : {}; // Si no pasas tecnic_id, muestra todas
+
     const incidencies = await Incidencia.findAll({
+      where: whereCondition,
       include: [
         {
           model: Departament,
           attributes: ['id_dpt', 'nom']
         },
         {
-            model: Tecnic,
-            attributes: ['id_tecnic', 'nom']
+          model: Tecnic,
+          attributes: ['id_tecnic', 'nom'],
+          as: 'tecnic'
         }
       ]
     });
-    res.render('incidencies/list', { incidencies });
+    const tecnics = await Tecnic.findAll();
+
+    res.render('incidencies/list', { 
+      incidencies,
+      tecnics,
+      tecnic_id: parseInt(req.query.tecnic_id) || null });
   } catch (error) {
-    res.status(500).send('Error al recuperar incidencies');
+    console.error('❌ Error al recuperar incidències:', error);
+    res.status(500).send('Error al recuperar incidències');
   }
 });
 
@@ -70,13 +93,13 @@ router.post('/create', async (req, res) => {
 router.get('/:id/edit', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id)
-    console.log('🕵️‍♂️ Buscando incidencia con ID:', req.params.id);
+    const tecnics = await Tecnic.findAll();
 
     if (!incidencia) {
       return res.status(404).send('Incidència no trobada');
     } 
 
-    res.render('incidencies/edit', { incidencia });
+    res.render('incidencies/edit', { incidencia, tecnics });
   } catch (error) {
     console.error('💥 Error al carregar el formulari:', error);
     res.status(500).send('Error al carregar formulari d’edició');
@@ -127,6 +150,43 @@ router.get('/:id/delete', async (req, res) => {
   } catch (error) {
     console.error('💣 Error al eliminar la incidència', error);
     res.status(500).send('Error al eliminar la incidència: ' + error.message);
+  }
+});
+
+router.get('/:id/actuacions', async (req, res) => {
+  try {
+    const incidenciaId = req.params.id;
+
+    // Buscar la incidencia
+    const incidencia = await Incidencia.findByPk(incidenciaId, {
+      include: [
+        { model: Departament, attributes: ['id_dpt', 'nom'] },
+        { model: Tecnic, attributes: ['tecnic_id', 'nom'] },
+        { model: TipusIncidencia, attributes: ['id_tipus', 'nom'] },
+      ],
+    });
+
+    if (!incidencia) {
+      return res.status(404).send('Incidència no trobada');
+    }
+
+    // Aquí obtienes las actuaciones asociadas a la incidencia
+    const actuacions = await Actuacio.findAll({
+      where: { id_incidencia: incidenciaId },
+      include: [
+        {
+          model: Tecnic,
+          as: 'tecnic', 
+          attributes: ['tecnic_id', 'nom']
+        }
+      ],
+    });
+
+    // Renderiza la vista de actuaciones
+    res.render('incidencies/actuacions', { incidencia, actuacions });
+  } catch (error) {
+    console.error('Error al cargar las actuacions:', error);
+    res.status(500).send('Error al cargar las actuacions');
   }
 });
 
