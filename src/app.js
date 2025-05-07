@@ -28,8 +28,6 @@ Actuacio.belongsTo(Tecnic, {foreignKey: 'tecnic_id', as: 'tecnic'});
 Tecnic.hasMany(Actuacio, { foreignKey: 'tecnic_id', as: 'actuacions'});
 
 
-
-
 // Rutes EJS
 const incidenciaRoutesEJS = require('./routes/incidenciesEJS.routes');
 const incidenciaRoutesEJS_user = require('./routes/incidenciesEJS_user.routes');

@@ -1,11 +1,11 @@
-<%- include('../partials/header', { title: 'Actuacions per a la incidència ' + incidencia.id }) %>
+<%- include('../partials/header', { title: 'Actuacions per a la incidència ' + incidencia.id_incidencia }) %>
 
 <h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
 <div class="mb-3">
   <p><strong>Tècnic:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
   <p><strong>Departament:</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
-  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencium ? incidencia.tipus_incidencium.nom : 'Sense tipus' %></p>
+  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencia ? incidencia.tipus_incidencia.nom : 'Sense tipus' %></p>
 </div>
 
 <h3 class="mb-3">Actuacions:</h3>
@@ -25,6 +25,7 @@
 </div>
 
 <a href="/incidencies" class="btn btn-primary">Tornar a la llista d'incidències</a>
-<a href="/incidencies" class="btn btn-warning">Crear actuacio</a>
+<a href="/incidencies/actuacions/crear/<%= incidencia.id %>" class="btn btn-warning">Afegir actuació</a>
+
 
 <%- include('../partials/footer') %>

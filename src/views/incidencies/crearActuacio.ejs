@@ -1,0 +1,40 @@
+<%- include('../partials/header', { title: 'Crear actuació per a la incidència ' + id_incidencia }) %>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Crear nova actuació</h1>
+
+  <form action="/incidencies/actuacions/crear" method="POST">
+    <input type="hidden" name="id_incidencia" value="<%= id_incidencia %>">
+
+    <div class="mb-3">
+      <label for="tecnic_id" class="form-label">Tècnic</label>
+      <select name="tecnic_id" class="form-select" required>
+        <% tecnics.forEach(tecnic => { %>
+          <option value="<%= tecnic.id_tecnic %>"><%= tecnic.nom %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="dat" class="form-label">Data</label>
+      <input type="date" name="dat" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcio" class="form-label">Descripció</label>
+      <textarea name="descripcio" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="temps_invertit" class="form-label">Temps invertit (minuts)</label>
+      <input type="number" name="temps_invertit" class="form-control" required>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <a href="/incidencies/<%= id_incidencia %>/actuacions" class="btn btn-secondary">Cancel·lar</a>
+      <button type="submit" class="btn btn-primary">Crear actuació</button>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

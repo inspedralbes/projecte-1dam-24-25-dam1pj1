@@ -57,7 +57,7 @@ router.post('/create', async (req, res) => {
   try {
     const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
 
-    const incidencia = await Incidencia.create({
+    await Incidencia.create({
       descripcio,
       usuari_id: 1, // Ajusta si tienes usuarios reales
       estat,
@@ -151,6 +151,43 @@ router.get('/:id/actuacions', async (req, res) => {
   } catch (error) {
     console.error('Error al cargar las actuacions:', error);
     res.status(500).send('Error al cargar las actuacions');
+  }
+});
+
+// Formulario per crear actuació
+router.get('/actuacions/crear/:id_incidencia', async (req, res) => {
+  const { id_incidencia } = req.params;
+  try {
+    const tecnics = await Tecnic.findAll();
+
+    res.render('incidencies/crearActuacio', {
+      id_incidencia,
+      tecnics
+    });    
+  } catch (error) {
+    console.error('Error al mostrar el formulario de creación:', error);
+    res.status(500).send('Error interno al mostrar el formulario');
+  }
+});
+
+// Crear actuació
+router.post('/actuacions/crear', async (req, res) => {
+  const { id_incidencia, tecnic_id, dat, descripcio, temps_invertit } = req.body;
+
+  try {
+    await Actuacio.create({
+      id_incidencia,
+      tecnic_id,
+      dat,
+      descripcio,
+      temps_invertit,
+      visible: true
+    });
+
+    res.redirect('/incidencies/${id_incidencia}/actuacions');
+  } catch (error) {
+    console.error('Error creant actuació:', error);
+    res.status(500).send('Error intern');
   }
 });
 
