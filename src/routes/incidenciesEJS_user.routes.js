@@ -87,7 +87,7 @@ router.get('/:id/actuacions', async (req, res) => {
       include: [{ model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] }]
     });
 
-    res.render('incidencies/actuacions', { incidencia, actuacions });
+    res.render('incidencies_user/actuacions', { incidencia, actuacions });
   } catch (error) {
     console.error('Error al cargar las actuacions:', error);
     res.status(500).send('Error al cargar las actuacions');
