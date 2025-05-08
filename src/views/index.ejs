@@ -1,25 +1,62 @@
-<%- include('partials/header', { title: 'Gestor d\'Incidències' }) %>
-
+<%- include('partials/header', { title: "Gestor d'Incidències", bodyClass: 'bg-dark text-white  bg-opacity-50' }) %>
 <style>
-  .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    align-items: center;         
-    height: 100%;             
-  }
-  .button-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;  
-    gap: 10px;              
-  }
+.title{
+  display: flex;
+  justify-content: center; 
+  align-items: center;      
+  height: 100%;              
+  width: auto;              
+  color: black;
+}
+.button-container {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+.btn {
+  background-color: white;
+  color: black;
+  border-radius: 5em;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+  display: flex;
+  justify-content: center; 
+  align-items: center;      
+  height: 100%;              
+  width: auto;              
+  margin:  auto;          
+}
+.btn:hover {
+  background-color: black; 
+  color: white;
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 8px 0 0 rgba(0, 0, 0, 0.3);
+}
+.btn:active {
+  background-color: #0b5ed7; 
+  color: white;
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+}
 </style>
 
-<div class="jumbotron">
-  <div class="container">
-    <h1 class="display-4">Gestió d'Incidències</h1>
-    <p class="lead">Consulta i administra les incidències registrades. Fes clic per veure més detalls o editar-les.</p>
+<div class="container-fluid py-5 header-animated">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 text-center">
+      <p class="animated-title">
+        <span>Gestió d'Incidències</span>
+        <p class="lead custom-lead">
+          Consulta i administra les incidències registrades.<br>
+          Fes clic per veure més detalls o editar-les.
+        </p>
+      </p>
+    </div>
   </div>
 </div>
 
@@ -27,23 +64,25 @@
   <div class="row">
     <!-- Columna USUARIO -->
     <div class="col-md-6 column">
-      <h2>USUARIO</h2>
+      <h2 class="title">USUARIO</h2>
       <div class="button-container">
-        <a href="/Incidencies_user" class="btn btn-primary">Veure Incidències</a>
-        <a class="btn btn-success" href="/incidencies_user/new">Crear Incidències</a>
+        <button onclick="window.location.href='/Incidencies_user'" class="btn">Veure Incidències</button>
+        <button onclick="window.location.href='/incidencies_user/new'" class="btn">Crear Incidències</button>
       </div>
     </div>
 
     <!-- Columna ADMIN/TECNIC -->
     <div class="col-md-6 column">
-      <h2>ADMIN/TECNIC</h2>
+      <h2 class="title">ADMIN/TECNIC</h2>
       <div class="button-container">
-        <a href="/Incidencies" class="btn btn-primary">Gestionar Incidències</a>
-        <a class="btn btn-success" href="/incidencies/new">Crear Incidències</a>
+        <button onclick="window.location.href='/Incidencies'" class="btn">Gestionar Incidències</button>
+        <button onclick="window.location.href='/incidencies/new'" class="btn">Crear Incidències</button>
       </div>
     </div>
   </div>
 </div>
 
+<div style="height: 350px;"></div>
+
+
 <%- include('partials/footer') %>
- 

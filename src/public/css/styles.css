@@ -1,51 +1,52 @@
-.moto-card {
-  transition: transform 0.3s ease-in-out;
-  height: 100%;
+.header-animated {
+ background: #909294;
+  color: #212529;
+  min-height: 250px;
+  position: relative;
+  overflow: hidden;
 }
 
-.moto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+.animated-title {
+  text-transform: uppercase;
+  letter-spacing: .5em;
+  display: inline-block;
+  border-width: 4px 0;
+  padding: 1.5em 0;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
 }
 
-.moto-image {
-  height: 180px;
-  object-fit: cover;
-  background-color: #f8f9fa;
+.animated-title span {
+  font: 700 4em/1 "Oswald", sans-serif;
+  letter-spacing: 0;
+  display: block;
+  margin: 0 auto;
+  text-shadow: 0 0 80px rgba(255,255,255,.5);
+  background: url(https://i.ibb.co/RDTnNrT/animated-text-fill.png) repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: aitf 80s linear infinite;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+  word-break: break-word;
 }
-
-.country-flag {
-  width: 24px;
-  height: auto;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-.card-title {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.category-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.8rem;
-}
-
-.jumbotron {
-  background-color: #343a40;
-  color: white;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-#filters {
-  margin-bottom: 20px;
+.custom-lead {
+  font-size: 1.3rem;
+  color: black;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-  .col-md-4 {
-    margin-bottom: 1rem;
+  .animated-title span {
+    font-size: 2em;
   }
-} 
+}
+
+@-webkit-keyframes aitf {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
