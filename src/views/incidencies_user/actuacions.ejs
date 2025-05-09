@@ -1,13 +1,19 @@
-<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
-
+<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-crema' }) %>
 
 <h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
-<div class="mb-3">
-  <p><strong>Tècnic:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
-  <p><strong>Departament:</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
-  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencium ? incidencia.tipus_incidencium.nom : 'Sense tipus' %></p>
-</div>
+<table class="table table-success">
+  <thead>
+    <th>TÈCNIC</th>
+    <th>DEPARTAMENT</th>
+    <th>TIPUS D'INCIDÈNCIA</th>
+    </thead>
+  <tbody>
+      <td><%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></td>
+      <td><%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></td>
+      <td><%= incidencia.tipus_incidencium ? incidencia.tipus_incidencium.nom : 'Sense tipus' %></td>
+  </tbody>
+</table>
 
 <h3 class="mb-3">Actuacions:</h3>
 
