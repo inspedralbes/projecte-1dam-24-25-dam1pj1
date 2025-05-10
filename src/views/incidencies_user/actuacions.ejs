@@ -1,21 +1,15 @@
-<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-crema' }) %>
+<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+
 
 <h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
-<table class="table table-success">
-  <thead>
-    <th>TÈCNIC</th>
-    <th>DEPARTAMENT</th>
-    <th>TIPUS D'INCIDÈNCIA</th>
-    </thead>
-  <tbody>
-      <td><%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></td>
-      <td><%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></td>
-      <td><%= incidencia.tipus_incidencium ? incidencia.tipus_incidencium.nom : 'Sense tipus' %></td>
-  </tbody>
-</table>
+<div class="mb-3">
+  <p><strong>Tècnic:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
+  <p><strong>Departament:</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
+  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencia ? incidencia.tipus_incidencia.nom : 'Sense tipus' %></p>
+</div>
 
-<h3 class="mb-3">Actuacions:</h3>
+<h3 class="mb-3">Actuacions:</h3> 
 
 <div class="list-group mb-4">
   <% actuacions
@@ -24,14 +18,19 @@
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"><%= actuacio.tecnic ? actuacio.tecnic.nom : 'Sense tècnic' %></h5>
-        <small class="text-muted"><%= actuacio.data_actuacio ? new Date(actuacio.data_actuacio).toLocaleString() : 'Sense data' %></small>
+        <small class="text-muted">
+          <%= actuacio.data_actuacio
+              ? new Date(actuacio.data_actuacio).toLocaleString('ca-ES', { dateStyle: 'short', timeStyle: 'short' })
+              : 'Sense data' %>
+        </small>
+        
       </div>
       <p class="mb-1"><%= actuacio.descripcio %></p>
     </div>
   <% }) %>
 </div>
 
-<a href="/Incidencies_user" class="btn btn-primary">Tornar a la llista d'incidències</a>
+<a href="/incidencies_user" class="btn btn-primary">Tornar a la llista d'incidències</a>
 
 
 <%- include('../partials/footer') %>

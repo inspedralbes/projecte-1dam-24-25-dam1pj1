@@ -47,12 +47,9 @@
           <td>
             <%= inc.prioridad ? inc.prioridad : 'No asignado' %>
           </td>
-          <td>
-            <%= inc.DEPARTAMENT ? inc.DEPARTAMENT.nom : 'No asignado' %>
-          </td>
-          <td>
-            <%= inc.TECNIC ? inc.TECNIC.nom : 'No asignado' %>
-          </td>
+          <td><%= inc.departament ? inc.departament.nom : 'No asignado' %></td>
+          <td><%= inc.tecnic ? inc.tecnic.nom : 'No asignado' %></td>
+
           <td>
             <div class="button-container">
               <!-- Veure -->

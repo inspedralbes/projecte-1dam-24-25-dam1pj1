@@ -13,17 +13,25 @@
 
 <div class="list-group mb-4">
   <% actuacions
-      .sort((a, b) => new Date(b.data_actuacio) - new Date(a.data_actuacio))
-      .forEach(actuacio => { %>
-    <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1"><%= actuacio.tecnic ? actuacio.tecnic.nom : 'Sense tècnic' %></h5>
-        <small class="text-muted"><%= actuacio.data_actuacio ? new Date(actuacio.data_actuacio).toLocaleString() : 'Sense data' %></small>
-      </div>
-      <p class="mb-1"><%= actuacio.descripcio %></p>
-    </div>
-  <% }) %>
+  .sort((a, b) => new Date(b.data_actuacio) - new Date(a.data_actuacio))
+  .forEach(actuacio => { 
+      console.log('Actuació:', actuacio);  // Verifica que el dato data_actuacio esté presente
+%>
+<div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1"><%= actuacio.tecnic ? actuacio.tecnic.nom : 'Sense tècnic' %></h5>
+    <small class="text-muted">
+      <%= actuacio.data_actuacio
+          ? new Date(actuacio.data_actuacio).toLocaleString('ca-ES', { dateStyle: 'short', timeStyle: 'short' })
+          : 'Sense data' %>
+    </small>
+  </div>
+  <p class="mb-1"><%= actuacio.descripcio %></p>
 </div>
+<% }) %>
+
+</div>
+
 
 <a href="/incidencies" class="btn btn-primary">Tornar a la llista d'incidències</a>
 <a href="/incidencies/actuacions/crear/<%= incidencia.id %>" class="btn btn-warning">Afegir actuació</a>
