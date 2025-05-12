@@ -1,0 +1,31 @@
+ .titulo {
+      font-family: "Boldonse", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      font-weight: bold;
+  }
+  button {
+  background: white;
+  color: black;
+  font-family: inherit;
+  padding: 0.3em 1.3em;
+  font-weight: 900;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.3em 0.2em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background: black;
+  color: white;
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.20em 0.15em;
+}
+
+button:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
+}

@@ -1,18 +1,18 @@
-<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-crema' }) %>
 
-<h1>Nova incidència</h1>
+<h1 class="titulo">NOVA INCIDÈNCIA</h1>
 
 <form action="/incidencies/create" method="POST">
   <div class="mb-3">
-    <label for="descripcio" class="form-label">Descripció</label>
+    <label for="descripcio" class="form-label fw-bold">Descripció</label>
     <textarea name="descripcio" class="form-control" rows="3" required></textarea>
   </div>
 
   <!-- Departamento -->
   <div class="mb-3">
-    <label for="id_dpt" class="form-label">Departament</label>
+    <label for="id_dpt" class="form-label fw-bold">Departament</label>
     <select name="id_dpt" class="form-select" required>
-      <%departaments.forEach(departament => { %>
+      <% departaments.forEach(departament => { %>
         <option value="<%= departament.id_dpt %>"><%= departament.nom %></option>
       <% }) %>
     </select>
@@ -20,15 +20,16 @@
 
   <!-- Tipo de incidencia -->
   <div class="mb-3">
-    <label for="id_tipus" class="form-label">Tipus d'incidència</label>
+    <label for="id_tipus" class="form-label fw-bold">Tipus d'incidència</label>
     <select name="id_tipus" class="form-select" required>
       <% tipusIncidencia.forEach(tipus => { %>
         <option value="<%= tipus.id_tipus %>"><%= tipus.nom %></option>
       <% }) %>
     </select>
   </div>
-
-  <button type="submit" class="btn btn-success">Crear</button>
+ <button type="submit">Crear</button>
 </form>
+<div style="height: 250px;"></div>
+
 
 <%- include('../partials/footer') %>
