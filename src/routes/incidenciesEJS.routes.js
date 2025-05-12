@@ -18,13 +18,14 @@ router.get('/', async (req, res) => {
       ? { [Op.or]: [{ tecnic_id: tecnicId }, { tecnic_id: null }] }
       : {};
 
-    const incidencies = await Incidencia.findAll({
-      where: whereCondition,
-      include: [
-        { model: Departament, attributes: ['id_dpt', 'nom'] },
-        { model: Tecnic, attributes: ['id_tecnic', 'nom'], as: 'tecnic' }
-      ]
-    });
+      const incidencies = await Incidencia.findAll({
+        where: whereCondition,
+        include: [
+          { model: Departament, as: 'departament', attributes: ['id_dpt', 'nom'] },
+          { model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] },
+          { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] }
+        ]
+      });
 
     const tecnics = await Tecnic.findAll();
 
@@ -134,9 +135,9 @@ router.get('/:id/actuacions', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id, {
       include: [
-        { model: Departament, attributes: ['id_dpt', 'nom'] },
-        { model: Tecnic, attributes: ['id_tecnic', 'nom'], as: 'tecnic' },
-        { model: TipusIncidencia, attributes: ['id_tipus', 'nom'] },
+        { model: Departament, as: 'departament', attributes: ['id_dpt', 'nom'] },
+        { model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] },
+        { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] },
       ]
     });
 
@@ -147,12 +148,15 @@ router.get('/:id/actuacions', async (req, res) => {
       include: [{ model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] }]
     });
 
+    console.log('Actuacions recuperadas:', actuacions);  // Verifica qué datos se están recuperando
+
     res.render('incidencies/actuacions', { incidencia, actuacions });
   } catch (error) {
     console.error('Error al cargar las actuacions:', error);
     res.status(500).send('Error al cargar las actuacions');
   }
 });
+
 
 // Formulario per crear actuació
 router.get('/actuacions/crear/:id_incidencia', async (req, res) => {
@@ -174,21 +178,40 @@ router.get('/actuacions/crear/:id_incidencia', async (req, res) => {
 router.post('/actuacions/crear', async (req, res) => {
   const { id_incidencia, tecnic_id, dat, descripcio, temps_invertit } = req.body;
 
+  // Verifica que la fecha que recibes no sea null o undefined
+  console.log('Fecha recibida para la actuación:', dat);
+
   try {
+    if (dat) {
+      const fecha = new Date(dat);
+      if (!isNaN(fecha)) {
+        // Fecha válida
+        data_actuacio = fecha;
+      } else {
+        console.log('Fecha inválida:', dat);
+        data_actuacio = null;
+      }
+    } else {
+      data_actuacio = null;
+    }
+    
     await Actuacio.create({
       id_incidencia,
       tecnic_id,
-      dat,
+      data_actuacio,
       descripcio,
       temps_invertit,
       visible: true
     });
+    
 
-    res.redirect('/incidencies/${id_incidencia}/actuacions');
+    res.redirect(`/incidencies/${id_incidencia}/actuacions`);
   } catch (error) {
-    console.error('Error creant actuació:', error);
-    res.status(500).send('Error intern');
+    console.error('Error creando la actuación:', error);
+    res.status(500).send('Error interno');
   }
 });
+
+
 
 module.exports = router;

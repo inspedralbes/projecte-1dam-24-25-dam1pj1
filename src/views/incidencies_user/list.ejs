@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-crema' }) %>
+<%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
 <div style="height: 40px;"></div>
 <h1 class="titulo">LLISTA D'INCIDÈNCIES </h1>
 
@@ -22,8 +22,8 @@
         <td><%= inc.descripcio %></td>
         <td><%= inc.estat %></td>
         <td><%= inc.prioridad %></td>
-        <td><%= inc.DEPARTAMENT ? inc.DEPARTAMENT.nom : 'No asignado' %></td>
-        <td><%= inc.TECNIC ? inc.TECNIC.nom : 'No asignado' %></td>
+        <td><%= inc.departament ? inc.departament.nom : 'No asignado' %></td>
+        <td><%= inc.tecnic ? inc.tecnic.nom : 'No asignado' %></td>
         <td>
           <form action="/incidencies_user/<%= inc.id %>/actuacions" method="GET">
             <button type="submit">Veure</button>

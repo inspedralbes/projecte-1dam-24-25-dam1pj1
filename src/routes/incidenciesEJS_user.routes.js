@@ -10,19 +10,21 @@ const Actuacio = require('../models/Actuacions'); // Asegúrate que el archivo y
 // LISTAR INCIDÈNCIES
 router.get('/', async (req, res) => {
   try {
+
+    const whereCondition = {};
+    if (req.query.estat) {
+      whereCondition.estat = req.query.estat;
+    }
+
     const incidencies = await Incidencia.findAll({
+      where: whereCondition,
       include: [
-        {
-          model: Departament,
-          attributes: ['id_dpt', 'nom']
-        },
-        {
-          model: Tecnic,
-          attributes: ['id_tecnic', 'nom'],
-          as: 'tecnic'
-        }
+        { model: Departament, as: 'departament', attributes: ['id_dpt', 'nom'] },
+        { model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] },
+        { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] }
       ]
     });
+    
 
     res.render('incidencies_user/list', { incidencies });
   } catch (error) {
@@ -74,10 +76,10 @@ router.get('/:id/actuacions', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id, {
       include: [
-        { model: Departament, attributes: ['id_dpt', 'nom'] },
-        { model: Tecnic, attributes: ['id_tecnic', 'nom'], as: 'tecnic' },
-        { model: TipusIncidencia, attributes: ['id_tipus', 'nom'] },
-      ]
+        { model: Departament, as: 'departament', attributes: ['id_dpt', 'nom'] },
+        { model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] },
+        { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] },
+      ]    
     });
 
     if (!incidencia) return res.status(404).send('Incidència no trobada');

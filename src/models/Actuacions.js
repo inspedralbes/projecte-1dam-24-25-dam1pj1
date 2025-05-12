@@ -13,7 +13,10 @@ const Actuacio = sequelize.define('ACTUACIONS', {
     field: 'id_incidencia' 
   },
   tecnic_id: DataTypes.INTEGER,
-  dat: DataTypes.DATE,
+  data_actuacio: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
   descripcio: DataTypes.TEXT,
   temps_invertit: DataTypes.INTEGER,
   visible: DataTypes.BOOLEAN

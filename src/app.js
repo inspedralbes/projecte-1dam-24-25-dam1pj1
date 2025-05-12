@@ -10,7 +10,7 @@ const Departament = require('./models/Departaments');
 const TipusIncidencia = require('./models/TipusIncidencies');
 const Tecnic = require('./models/Tecnics');
 
-Incidencia.belongsTo(Departament, { foreignKey: 'id_dpt' });
+Incidencia.belongsTo(Departament, { foreignKey: 'id_dpt', as: 'departament' }); 
 Departament.hasMany(Incidencia, { foreignKey: 'id_dpt', onDelete: 'CASCADE' });
 
 
@@ -18,7 +18,7 @@ Incidencia.belongsTo(Tecnic, {foreignKey: 'tecnic_id',targetKey: 'id_tecnic',as:
 Tecnic.hasMany(Incidencia, { foreignKey: 'tecnic_id', onDelete: 'CASCADE' });
 
 
-Incidencia.belongsTo(TipusIncidencia, { foreignKey: 'id_tipus' });
+Incidencia.belongsTo(TipusIncidencia, { foreignKey: 'id_tipus', as: 'tipus_incidencia'});
 TipusIncidencia.hasMany(Incidencia, { foreignKey: 'id_tipus', onDelete: 'CASCADE' });
 
 Actuacio.belongsTo(Incidencia, { foreignKey: 'id_incidencia',onDelete: 'CASCADE' });
@@ -118,7 +118,7 @@ const port = process.env.PORT || 3000;
     await Actuacio.create({
         id_incidencia: 1,
         tecnic_id: 1,
-        dat: new Date(),
+        data_actuacio: new Date(),
         descripcio: 'Reparación del monitor',
         temps_invertit: 120,
         visible: 1,
