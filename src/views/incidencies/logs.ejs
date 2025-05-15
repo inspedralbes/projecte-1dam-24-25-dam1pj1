@@ -1,0 +1,25 @@
+<h1>Registre d'Activitat</h1>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Usuari</th>
+      <th>Acció</th>
+      <th>Missatge</th>
+      <th>Ruta</th>
+      <th>IP</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% logs.forEach(log => { %>
+      <tr>
+        <td><%= log.usuari %></td>
+        <td><%= log.accio %></td>
+        <td><%= log.missatge %></td>
+        <td><%= log.ruta %></td>
+        <td><%= log.ip %></td>
+        <td><%= new Date(log.data).toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

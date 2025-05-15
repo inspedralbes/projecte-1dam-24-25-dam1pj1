@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { estaAutenticat } = require('../middleware/auth');
 
 const Incidencia = require('../models/Incidencies');
 const Departament = require('../models/Departaments');
@@ -9,7 +8,7 @@ const TipusIncidencia = require('../models/TipusIncidencies');
 const Actuacio = require('../models/Actuacions');
 
 // LISTAR INCIDÈNCIES
-router.get('/', estaAutenticat, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const whereCondition = {};
     if (req.query.estat) {
@@ -25,7 +24,9 @@ router.get('/', estaAutenticat, async (req, res) => {
       ]
     });
 
-    res.render('incidencies_user/list', { incidencies });
+    res.render('incidencies_user/list', {
+      incidencies
+    });
   } catch (error) {
     console.error('Error al recuperar incidències:', error);
     res.status(500).send('Error al recuperar incidències');
@@ -33,13 +34,17 @@ router.get('/', estaAutenticat, async (req, res) => {
 });
 
 // FORMULARIO NUEVA INCIDÈNCIA
-router.get('/new', estaAutenticat, async (req, res) => {
+router.get('/new', async (req, res) => {
   try {
     const departaments = await Departament.findAll();
     const tecnics = await Tecnic.findAll();
     const tipusIncidencia = await TipusIncidencia.findAll();
 
-    res.render('incidencies_user/new', { departaments, tecnics, tipusIncidencia });
+    res.render('incidencies_user/new', {
+      departaments,
+      tecnics,
+      tipusIncidencia
+    });
   } catch (error) {
     console.error('Error al cargar formulario de creación:', error);
     res.status(500).send('Error al cargar formulario de creación');
@@ -47,13 +52,13 @@ router.get('/new', estaAutenticat, async (req, res) => {
 });
 
 // CREAR INCIDÈNCIA
-router.post('/create', estaAutenticat, async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
-    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
+    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus, usuari_id } = req.body;
 
     await Incidencia.create({
       descripcio,
-      usuari_id: req.session.usuari.id, 
+      usuari_id, // ahora debe venir desde el formulario
       estat,
       prioridad,
       id_dpt,
@@ -70,7 +75,7 @@ router.post('/create', estaAutenticat, async (req, res) => {
 });
 
 // VER ACTUACIONS D'UNA INCIDÈNCIA
-router.get('/:id/actuacions', estaAutenticat, async (req, res) => {
+router.get('/:id/actuacions', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id, {
       include: [
@@ -87,7 +92,10 @@ router.get('/:id/actuacions', estaAutenticat, async (req, res) => {
       include: [{ model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] }]
     });
 
-    res.render('incidencies_user/actuacions', { incidencia, actuacions });
+    res.render('incidencies_user/actuacions', {
+      incidencia,
+      actuacions
+    });
   } catch (error) {
     console.error('Error al cargar las actuacions:', error);
     res.status(500).send('Error al cargar las actuacions');

@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { esAdmin, estaAutenticat } = require('../middleware/auth');
 const { Op } = require('sequelize');
+const fs = require('fs');
+const path = require('path');
 
 const Incidencia = require('../models/Incidencies');
 const Departament = require('../models/Departaments');
 const Tecnic = require('../models/Tecnics');
 const TipusIncidencia = require('../models/TipusIncidencies');
 const Actuacio = require('../models/Actuacions');
-
-// TODAS las rutas protegidas por admin
-router.use(estaAutenticat, esAdmin);
+const Logs = require('../models/Log');
 
 // Listar incidencias
 router.get('/', async (req, res) => {
@@ -49,28 +48,13 @@ router.get('/new', async (req, res) => {
     const departaments = await Departament.findAll();
     const tecnics = await Tecnic.findAll();
     const tipusIncidencia = await TipusIncidencia.findAll();
-    res.render('incidencies/new', { departaments, tecnics, tipusIncidencia });
+    res.render('incidencies/new', {
+      departaments,
+      tecnics,
+      tipusIncidencia
+    });
   } catch (error) {
     res.status(500).send('Error al cargar formulario de creación');
-  }
-});
-
-router.post('/create', async (req, res) => {
-  try {
-    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
-    await Incidencia.create({
-      descripcio,
-      usuari_id: req.session.usuari.id,
-      estat,
-      prioridad,
-      id_dpt,
-      data_creacio: new Date(),
-      tecnic_id,
-      id_tipus,
-    });
-    res.redirect('/incidencies');
-  } catch (error) {
-    res.status(500).send('Error al crear incidencia');
   }
 });
 
@@ -79,32 +63,12 @@ router.get('/:id/edit', async (req, res) => {
     const incidencia = await Incidencia.findByPk(req.params.id);
     const tecnics = await Tecnic.findAll();
     if (!incidencia) return res.status(404).send('Incidència no trobada');
-    res.render('incidencies/edit', { incidencia, tecnics });
+    res.render('incidencies/edit', {
+      incidencia,
+      tecnics
+    });
   } catch (error) {
     res.status(500).send('Error al carregar formulari');
-  }
-});
-
-router.post('/:id/update', async (req, res) => {
-  try {
-    const incidencia = await Incidencia.findByPk(req.params.id);
-    if (!incidencia) return res.status(404).send('Incidència no trobada');
-    Object.assign(incidencia, req.body);
-    await incidencia.save();
-    res.redirect('/incidencies');
-  } catch (error) {
-    res.status(500).send('Error al actualitzar la incidència');
-  }
-});
-
-router.get('/:id/delete', async (req, res) => {
-  try {
-    const incidencia = await Incidencia.findByPk(req.params.id);
-    if (!incidencia) return res.status(404).send('Incidència no trobada');
-    await incidencia.destroy();
-    res.redirect('/incidencies');
-  } catch (error) {
-    res.status(500).send('Error al eliminar la incidència');
   }
 });
 
@@ -123,7 +87,10 @@ router.get('/:id/actuacions', async (req, res) => {
       include: [{ model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] }]
     });
 
-    res.render('incidencies/actuacions', { incidencia, actuacions });
+    res.render('incidencies/actuacions', {
+      incidencia,
+      actuacions
+    });
   } catch (error) {
     res.status(500).send('Error al cargar les actuacions');
   }
@@ -141,22 +108,17 @@ router.get('/actuacions/crear/:id_incidencia', async (req, res) => {
   }
 });
 
-router.post('/actuacions/crear', async (req, res) => {
+const Log = require('../models/Log');
+
+router.get('/logs', async (req, res) => {
   try {
-    const { id_incidencia, tecnic_id, dat, descripcio, temps_invertit } = req.body;
-    const fecha = dat ? new Date(dat) : null;
-    await Actuacio.create({
-      id_incidencia,
-      tecnic_id,
-      data_actuacio: isNaN(fecha) ? null : fecha,
-      descripcio,
-      temps_invertit,
-      visible: true
-    });
-    res.redirect(`/incidencies/${id_incidencia}/actuacions`);
+    const logs = await Log.find().sort({ data: -1 }).limit(100);
+    res.render('incidencies/logs', { logs });
   } catch (error) {
-    res.status(500).send('Error interno al crear actuació');
+    res.status(500).send('Error al carregar els logs');
   }
 });
+
+
 
 module.exports = router;
