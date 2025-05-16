@@ -14,5 +14,4 @@ function checkAdmin(req, res, next) {
   res.status(403).send('Accés no autoritzat, mafiós de segona');
 }
 
-
 module.exports = { checkAuth, checkAdmin };
