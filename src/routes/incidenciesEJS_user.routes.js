@@ -5,11 +5,12 @@ const Incidencia = require('../models/Incidencies');
 const Departament = require('../models/Departaments');
 const Tecnic = require('../models/Tecnics');
 const TipusIncidencia = require('../models/TipusIncidencies');
-const Actuacio = require('../models/Actuacions');
+const Actuacio = require('../models/Actuacions'); // Asegúrate que el archivo y el modelo están bien escritos
 
 // LISTAR INCIDÈNCIES
 router.get('/', async (req, res) => {
   try {
+
     const whereCondition = {};
     if (req.query.estat) {
       whereCondition.estat = req.query.estat;
@@ -23,10 +24,9 @@ router.get('/', async (req, res) => {
         { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] }
       ]
     });
+    
 
-    res.render('incidencies_user/list', {
-      incidencies
-    });
+    res.render('incidencies_user/list', { incidencies });
   } catch (error) {
     console.error('Error al recuperar incidències:', error);
     res.status(500).send('Error al recuperar incidències');
@@ -40,11 +40,7 @@ router.get('/new', async (req, res) => {
     const tecnics = await Tecnic.findAll();
     const tipusIncidencia = await TipusIncidencia.findAll();
 
-    res.render('incidencies_user/new', {
-      departaments,
-      tecnics,
-      tipusIncidencia
-    });
+    res.render('incidencies_user/new', { departaments, tecnics, tipusIncidencia });
   } catch (error) {
     console.error('Error al cargar formulario de creación:', error);
     res.status(500).send('Error al cargar formulario de creación');
@@ -54,11 +50,11 @@ router.get('/new', async (req, res) => {
 // CREAR INCIDÈNCIA
 router.post('/create', async (req, res) => {
   try {
-    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus, usuari_id } = req.body;
+    const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
 
     await Incidencia.create({
       descripcio,
-      usuari_id, // ahora debe venir desde el formulario
+      usuari_id: 1, // ← Cambiar si usas auth real
       estat,
       prioridad,
       id_dpt,
@@ -75,6 +71,7 @@ router.post('/create', async (req, res) => {
 });
 
 // VER ACTUACIONS D'UNA INCIDÈNCIA
+// Mostrar actuacions d'una incidencia
 router.get('/:id/actuacions', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id, {
@@ -82,7 +79,7 @@ router.get('/:id/actuacions', async (req, res) => {
         { model: Departament, as: 'departament', attributes: ['id_dpt', 'nom'] },
         { model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] },
         { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] },
-      ]
+      ]    
     });
 
     if (!incidencia) return res.status(404).send('Incidència no trobada');
@@ -92,14 +89,12 @@ router.get('/:id/actuacions', async (req, res) => {
       include: [{ model: Tecnic, as: 'tecnic', attributes: ['id_tecnic', 'nom'] }]
     });
 
-    res.render('incidencies_user/actuacions', {
-      incidencia,
-      actuacions
-    });
+    res.render('incidencies_user/actuacions', { incidencia, actuacions });
   } catch (error) {
     console.error('Error al cargar las actuacions:', error);
     res.status(500).send('Error al cargar las actuacions');
   }
 });
+
 
 module.exports = router;
