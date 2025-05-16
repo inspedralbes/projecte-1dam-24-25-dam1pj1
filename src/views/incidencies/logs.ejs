@@ -1,13 +1,18 @@
-<h1>Registre d'Activitat</h1>
-<table border="1">
+<%- include('../partials/header', { title: 'Registre d\'Activitat', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+
+<div style="height: 40px;"></div>
+<h1 class="titulo">REGISTRE D'ACTIVITAT</h1>
+
+<table class="table table-hover table-dark">
+  <br>
   <thead>
     <tr>
-      <th>Usuari</th>
-      <th>Acció</th>
-      <th>Missatge</th>
-      <th>Ruta</th>
+      <th>USUARI</th>
+      <th>ACCIÓ</th>
+      <th>MISSATGE</th>
+      <th>RUTA</th>
       <th>IP</th>
-      <th>Data</th>
+      <th>DATA</th>
     </tr>
   </thead>
   <tbody>
@@ -23,3 +28,7 @@
     <% }) %>
   </tbody>
 </table>
+
+<div style="height: 350px;"></div>
+
+<%- include('../partials/footer') %>

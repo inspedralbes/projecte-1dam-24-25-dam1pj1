@@ -1,15 +1,45 @@
 <%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+<style>
+  .custom-button {
+    background: white;
+    font-family: inherit;
+    padding: 0.3em 1.3em;
+    font-weight: 900;
+    font-size: 18px;
+    border: 3px solid black;
+    border-radius: 0.4em;
+    box-shadow: 0.3em 0.2em;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+  }
 
-
+  .custom-button:hover {
+    background: black;
+    color: white;
+    transform: translate(-0.05em, -0.05em);
+    box-shadow: 0.20em 0.15em;
+}
+  .custom-button:active {
+    transform: translate(0.05em, 0.05em);
+    box-shadow: 0.05em 0.05em;
+  }
+.mb-3{
+  color: black;
+}
+</style>
+<div style="height: 40px;"></div>
 <h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
 <div class="mb-3">
-  <p><strong>Tècnic:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
-  <p><strong>Departament:</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
-  <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencia ? incidencia.tipus_incidencia.nom : 'Sense tipus' %></p>
+  <p><strong>TÈCNIC:</strong> <%= incidencia.tecnic ? incidencia.tecnic.nom : 'Sense tècnic' %></p>
+  <p><strong>DEPARTAMENT :</strong> <%= incidencia.departament ? incidencia.departament.nom : 'Sense departament' %></p>
+  <p><strong>TIPUS D'INCIDÈNCIA:</strong> <%= incidencia.tipus_incidencia ? incidencia.tipus_incidencia.nom : 'Sense tipus' %></p>
 </div>
 
-<h3 class="mb-3">Actuacions:</h3> 
+<br><br>
+<h3 class="mb-4">ACTUACIONS:</h3> 
 
 <div class="list-group mb-4">
   <% actuacions
@@ -29,8 +59,8 @@
     </div>
   <% }) %>
 </div>
-
-<a href="/incidencies_user" class="btn btn-primary">Tornar a la llista d'incidències</a>
-
+<div class="text-end">
+  <a href="/incidencies_user" class="custom-button">Tornar a la llista d'incidències</a>
+</div>
 
 <%- include('../partials/footer') %>

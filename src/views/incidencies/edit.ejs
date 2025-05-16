@@ -1,8 +1,42 @@
 <%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+<style>
+  .custom-button {
+    background: white;
+    font-family: inherit;
+    padding: 0.3em 1.3em;
+    font-weight: 900;
+    font-size: 18px;
+    border: 3px solid black;
+    border-radius: 0.4em;
+    box-shadow: 0.1em 0.1em;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+  }
 
+  .custom-button:hover {
+    background: black;
+    color: white;
+    transform: translate(-0.05em, -0.05em);
+    box-shadow: 0.20em 0.15em;
+  }
 
-<h1>Editar incidència</h1>
+  .custom-button:active {
+    transform: translate(0.05em, 0.05em);
+    box-shadow: 0.05em 0.05em;
+  }
+  .mb-3{
+    color: black;
+    font-weight: bold;
+     text-transform: uppercase;
+  }
+</style>
 
+<div style="height: 30px;"></div>
+<h1 class="titulo">EDITAR INCIDÈNCIA</h1>
+
+<br>
 <form action="/incidencies/<%= incidencia.id %>/update" method="POST">
   <div class="mb-3">
     <label for="id_dpt" class="form-label">Departament ID</label>
@@ -85,7 +119,11 @@
     </select>
   </div>
 
-  <button type="submit" class="btn btn-primary">Actualitzar</button>
+  <br>
+ <div class="d-flex justify-content-end">
+  <button type="submit" class="custom-button">Actualitzar</button>
+</div>
 </form>
 
+<div style="height: 250px;"></div>
 <%- include('../partials/footer') %>
