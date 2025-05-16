@@ -14,7 +14,7 @@ const Actuacio = require('./models/Actuacions');
 const Departament = require('./models/Departaments');
 const TipusIncidencia = require('./models/TipusIncidencies');
 const Tecnic = require('./models/Tecnics');
-const Usuari = require('./models/Usuari')
+const Usuari = require('./models/Usuari');
 
 
 
@@ -40,6 +40,7 @@ Tecnic.hasMany(Actuacio, { foreignKey: 'tecnic_id', as: 'actuacions' });
 
 const incidenciaRoutesEJS = require('./routes/incidenciesEJS.routes');
 const incidenciaRoutesEJS_user = require('./routes/incidenciesEJS_user.routes');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -65,6 +66,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 // Rutes 
 app.use('/incidencies', incidenciaRoutesEJS);
 app.use('/incidencies_user', incidenciaRoutesEJS_user);
+app.use('/', authRoutes);
 
 // Ruta d'inici
 app.get('/', async (req, res) => {
@@ -143,21 +145,15 @@ const port = process.env.PORT || 3000;
     });
 
     await Usuari.create({
-      username: 'fiona',
+      username: 'admin',
       password: '12345', 
-      esAdmin: 1, 
-    });
-
-    await Usuari.create({
-      username: 'jordi',
-      password: '12345', 
-      esAdmin: 1,
+      isAdmin: true, 
     });
 
     await Usuari.create({
       username: 'juan',
       password: '12345', 
-      esAdmin: 0,
+      isAdmin: false,
     });
 
 

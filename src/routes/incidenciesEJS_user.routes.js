@@ -5,12 +5,13 @@ const Incidencia = require('../models/Incidencies');
 const Departament = require('../models/Departaments');
 const Tecnic = require('../models/Tecnics');
 const TipusIncidencia = require('../models/TipusIncidencies');
-const Actuacio = require('../models/Actuacions'); // Asegúrate que el archivo y el modelo están bien escritos
+const Actuacio = require('../models/Actuacions');
 
-// LISTAR INCIDÈNCIES
+const { checkAuth } = require('../middleware/auth'); // 💥 Importamos el middleware de auth
+
+// LISTAR INCIDÈNCIES (público)
 router.get('/', async (req, res) => {
   try {
-
     const whereCondition = {};
     if (req.query.estat) {
       whereCondition.estat = req.query.estat;
@@ -24,7 +25,6 @@ router.get('/', async (req, res) => {
         { model: TipusIncidencia, as: 'tipus_incidencia', attributes: ['id_tipus', 'nom'] }
       ]
     });
-    
 
     res.render('incidencies_user/list', { incidencies });
   } catch (error) {
@@ -33,8 +33,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// FORMULARIO NUEVA INCIDÈNCIA
-router.get('/new', async (req, res) => {
+// FORMULARIO NUEVA INCIDÈNCIA (solo logueados)
+router.get('/new', checkAuth, async (req, res) => {
   try {
     const departaments = await Departament.findAll();
     const tecnics = await Tecnic.findAll();
@@ -47,14 +47,14 @@ router.get('/new', async (req, res) => {
   }
 });
 
-// CREAR INCIDÈNCIA
-router.post('/create', async (req, res) => {
+// CREAR INCIDÈNCIA (solo logueados)
+router.post('/create', checkAuth, async (req, res) => {
   try {
     const { descripcio, estat, prioridad, id_dpt, tecnic_id, id_tipus } = req.body;
 
     await Incidencia.create({
       descripcio,
-      usuari_id: 1, // ← Cambiar si usas auth real
+      usuari_id: req.session && req.session.user ? req.session.user.id : 1,
       estat,
       prioridad,
       id_dpt,
@@ -70,8 +70,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// VER ACTUACIONS D'UNA INCIDÈNCIA
-// Mostrar actuacions d'una incidencia
+// VER ACTUACIONS D'UNA INCIDÈNCIA (público)
 router.get('/:id/actuacions', async (req, res) => {
   try {
     const incidencia = await Incidencia.findByPk(req.params.id, {
@@ -95,6 +94,5 @@ router.get('/:id/actuacions', async (req, res) => {
     res.status(500).send('Error al cargar las actuacions');
   }
 });
-
 
 module.exports = router;
