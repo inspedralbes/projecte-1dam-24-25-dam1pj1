@@ -12,7 +12,7 @@ const Log = require('../models/Log');
 const { checkAuth, checkAdmin } = require('../middleware/auth');
 
 // Listar incidencias (solo logueados)
-router.get('/', checkAuth, async (req, res) => {
+router.get('/', checkAuth, checkAdmin, async (req, res) => {
   try {
     const tecnicId = req.query.tecnic_id;
 

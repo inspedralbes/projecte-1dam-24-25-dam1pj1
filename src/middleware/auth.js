@@ -1,11 +1,11 @@
 // middlewares/auth.js
 function checkAuth(req, res, next) {
-  if (req.session && req.session.usuarioId) {
-    next();
-  } else {
-    res.redirect('/login');
+  if (!req.session.user) {
+    return res.redirect('/login');
   }
+  next();
 }
+
 
 function checkAdmin(req, res, next) {
   if (req.session && req.session.user && req.session.user.isAdmin === true) {

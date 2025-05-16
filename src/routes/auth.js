@@ -6,6 +6,15 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error cerrando sesión:', err);
+    }
+    res.redirect('/login');
+  });
+});
+
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 

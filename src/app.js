@@ -52,6 +52,11 @@ app.use(session({
   saveUninitialized: false
 }));
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
+
 connectMongo();
 app.use(logAccess);
 // EJS config
