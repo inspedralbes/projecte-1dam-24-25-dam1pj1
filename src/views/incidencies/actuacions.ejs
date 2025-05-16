@@ -1,5 +1,47 @@
 <%- include('../partials/header', { title: 'Llista d\'incidències', bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+<style>
+  .custom-button {
+    background: white;
+    font-family: inherit;
+    padding: 0.3em 1.3em;
+    font-weight: 900;
+    font-size: 18px;
+    border: 3px solid black;
+    border-radius: 0.4em;
+    box-shadow: 0.1em 0.1em;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+  }
 
+  .custom-button:hover {
+    background: black;
+    color: white;
+    transform: translate(-0.05em, -0.05em);
+    box-shadow: 0.20em 0.15em;
+  }
+
+  .custom-button:active {
+    transform: translate(0.05em, 0.05em);
+    box-shadow: 0.05em 0.05em;
+  }
+
+  .custom-button-warning {
+    background: #ffc107; 
+    color: black;
+  }
+
+  .custom-button-warning:hover {
+    background: #d39e00;
+    color: white;
+  }
+  .mb-3{
+    color: black;
+  }
+</style>
+<div style="height: 40px;"></div>
 
 <h1 class="mb-4"><%= incidencia.descripcio %></h1>
 
@@ -9,7 +51,8 @@
   <p><strong>Tipus d'incidència:</strong> <%= incidencia.tipus_incidencia ? incidencia.tipus_incidencia.nom : 'Sense tipus' %></p>
 </div>
 
-<h3 class="mb-3">Actuacions:</h3> 
+<br>
+<h3 class="mb-4">ACTUACIONS:</h3> 
 
 <div class="list-group mb-4">
   <% actuacions
@@ -32,9 +75,10 @@
 
 </div>
 
+<div class="text-end mt-4">
+  <a href="/incidencies" class="custom-button">Tornar a la llista d'incidències</a>
+  <a href="/incidencies/actuacions/crear/<%= incidencia.id %>" class="custom-button custom-button-warning">Afegir actuació</a>
+</div>
 
-<a href="/incidencies" class="btn btn-primary">Tornar a la llista d'incidències</a>
-<a href="/incidencies/actuacions/crear/<%= incidencia.id %>" class="btn btn-warning">Afegir actuació</a>
-
-
+<div style="height: 300px;"></div>
 <%- include('../partials/footer') %>

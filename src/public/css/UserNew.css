@@ -29,3 +29,8 @@ button:active {
   transform: translate(0.05em, 0.05em);
   box-shadow: 0.05em 0.05em;
 }
+.mb-3{
+  color: black;
+   text-transform: uppercase;
+}
+
