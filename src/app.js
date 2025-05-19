@@ -129,26 +129,94 @@ const port = process.env.PORT || 3000;
       nom: 'Problema amb conexio',
     });
 
-
     await Incidencia.create({
       id_dpt: 1,
       usuari_id: 1,
-      tecnic_id: 1,
+      tecnic_id: 2,
       id_tipus: 1,
       descripcio: 'Problema con el monitor',
       prioridad: 'Alta',
       estat: 'Abierta',
     });
-
-    await Actuacio.create({
-      id_incidencia: 1,
+    await Incidencia.create({
+      id_dpt: 2,
+      usuari_id: 1,
       tecnic_id: 1,
+      id_tipus: 1,
+      descripcio: 'L’ordinador no s’encén',
+      prioridad: 'Alta',
+      estat: 'Abierta',
+    });
+     await Incidencia.create({
+      id_dpt: 2,
+      usuari_id: 1,
+      tecnic_id: 2,
+      id_tipus: 1,
+      descripcio: 'L’alumne no pot iniciar sessió a l’ordinador.',
+      prioridad: 'Mitja',
+      estat: 'Resolta',
+    });
+    await Incidencia.create({
+      id_dpt: 2,
+      usuari_id: 2,
+      tecnic_id: 1,
+      id_tipus: 1,
+      descripcio: 'El projector no mostra imatge.',
+      prioridad: 'Mitja',
+      estat: 'En progreso',
+    });
+    await Incidencia.create({
+      id_dpt: 2,
+      usuari_id: 1,
+      tecnic_id: 1,
+      id_tipus: 1,
+      descripcio: ' El so no funciona .',
+      prioridad: 'Mitja',
+      estat: 'Cerrada',
+    });
+    await Actuacio.create({         
+      id_incidencia: 1,
+      tecnic_id: 2,
       data_actuacio: new Date(),
       descripcio: 'Reparación del monitor',
       temps_invertit: 120,
+      visible: 2,
+    });
+
+      await Actuacio.create({    
+      id_incidencia: 2,
+      tecnic_id: 1,
+      data_actuacio: new Date(),
+      descripcio: 'Comprovació del cablejat, prova amb una altra font d’alimentació, substitució de la font.',
+      temps_invertit: 90,
       visible: 1,
     });
 
+     await Actuacio.create({   
+      id_incidencia: 3,
+      tecnic_id: 2,
+      data_actuacio: new Date(),
+      descripcio: 'Restabliment de contrasenya o desbloqueig del compte.',
+      temps_invertit: 30,
+      visible: 1,
+    });
+    await Actuacio.create({
+      id_incidencia: 4,
+      tecnic_id: 1,
+      data_actuacio: new Date(),
+      descripcio: 'Comprovació de connexions VGA/HDMI, canvi de cable, configuració de pantalla duplicada.',
+      temps_invertit: 30,
+      visible: 2,
+
+    }); await Actuacio.create({
+      id_incidencia: 5,
+      tecnic_id: 1,
+      data_actuacio: new Date(),
+      descripcio:'Comprovació de la sortida d’àudio seleccionada, drivers d’àudio, prova amb altres altaveus/auriculars. ',
+      temps_invertit: 30,
+      visible: 2,
+    });
+  
     await Usuari.create({
       username: 'admin',
       password: '12345', 
