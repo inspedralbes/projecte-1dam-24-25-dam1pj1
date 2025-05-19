@@ -168,7 +168,7 @@ const port = process.env.PORT || 3000;
       estat: 'En progreso',
     });
     await Incidencia.create({
-      id_dpt: 2,
+      id_dpt: 3,
       usuari_id: 1,
       tecnic_id: 1,
       id_tipus: 1,

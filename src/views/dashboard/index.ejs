@@ -1,7 +1,7 @@
 <%- include('../partials/header', { title: "Dashboard Mafiós", bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
 
 <div class="container py-4">
-  <h1 class="text-center mb-4">📊 Dashboard Mafiós</h1>
+  <h1 class="text-center mb-4">📊 Dashboard</h1>
 
   <div class="row mb-4">
     <div class="col-md-4">
@@ -13,7 +13,7 @@
     <div class="col-md-4">
       <div class="card text-bg-dark p-3 mb-3">
         <h5>Total Actuacions</h5>
-        <p class="fs-2"><%= actuacionsTotals %></p> <!-- CORREGIDO -->
+        <p class="fs-2"><%= actuacionsTotals %></p>
       </div>
     </div>
     <div class="col-md-4">
@@ -77,6 +77,20 @@
     options: { responsive: true }
   });
 
+  // DEBUG: Logs para saber qué se está enviando
+  console.log("📊 Labels Departaments:", <%- JSON.stringify(incidenciesPerDepartament.map(d => 'Dpt ' + d.id_dpt)) %>);
+  console.log("📊 Data Departaments:", <%- JSON.stringify(incidenciesPerDepartament.map(d => d.total)) %>);
+
+  console.log("📊 Labels Estat:", <%- JSON.stringify(incidenciesPerEstat.map(e => e.estat)) %>);
+  console.log("📊 Data Estat:", <%- JSON.stringify(incidenciesPerEstat.map(e => e.total)) %>);
+
+  console.log("📊 Labels Tècnics:", <%- JSON.stringify(actuacionsPerTecnic.map(t => t['tecnic.nom'])) %>);
+  console.log("📊 Data Tècnics:", <%- JSON.stringify(actuacionsPerTecnic.map(t => t.total)) %>);
+
+  console.log("📊 Labels Mesos:", <%- JSON.stringify(incidenciesPerMes.map(m => 'Mes ' + m.mes)) %>);
+  console.log("📊 Data Mesos:", <%- JSON.stringify(incidenciesPerMes.map(m => m.total)) %>);
+
+  // Charts
   new Chart(document.getElementById('incidenciesPerDepartament'), chartConfig(
     'departaments', 'Incidències per Departament',
     <%- JSON.stringify(incidenciesPerDepartament.map(d => 'Dpt ' + d.id_dpt)) %>,
@@ -91,11 +105,11 @@
   ));
 
   new Chart(document.getElementById('actuacionsPerTecnic'), chartConfig(
-    'tecnics', 'Actuacions per Tècnic',
-    <%- JSON.stringify(actuacionsPerTecnic.map(t => t['tecnic.nom'])) %>,
-    <%- JSON.stringify(actuacionsPerTecnic.map(t => t.total)) %>,
-    'rgba(75, 192, 192, 0.6)'
-  ));
+  'tecnics', 'Actuacions per Tècnic',
+  <%- JSON.stringify(actuacionsPerTecnic.map(t => t.nom)) %>,
+  <%- JSON.stringify(actuacionsPerTecnic.map(t => t.total)) %>,
+  'rgba(75, 192, 192, 0.6)'
+));
 
   new Chart(document.getElementById('incidenciesPerMes'), chartConfig(
     'mesos', 'Incidències per Mes',
@@ -104,5 +118,6 @@
     'rgba(153, 102, 255, 0.6)'
   ));
 </script>
+
 
 <%- include('../partials/footer') %>
