@@ -151,24 +151,10 @@
     0% { bottom: -100%; }
     50%, 100% { bottom: 100%; }
   }
-
-  .error {
-    color: #f66;
-    background-color: #fee;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
 </style>
-
 
 <div class="login-box">
   <p>INICIA SESSIÓ</p>
-
-  <% if (typeof error !== 'undefined') { %>
-    <div class="error"><%= error %></div>
-  <% } %>
 
   <form action="/login" method="POST">
     <div class="user-box">
@@ -187,5 +173,33 @@
     </button>
   </form>
 </div>
+
+<!-- Toastr: CSS y JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<% if (typeof toastr !== 'undefined' && toastr) { %>
+  <script>
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    };
+    toastr["<%= toastr.type %>"]("<%= toastr.message %>", "<%= toastr.title %>");
+  </script>
+<% } %>
 
 <%- include('partials/footer') %>

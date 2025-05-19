@@ -3,7 +3,9 @@ const Usuario = require('../models/Usuari');
 const router = express.Router();
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  const toastr = req.session.toastr;
+  req.session.toastr = null; 
+  res.render('login', { toastr });
 });
 
 router.get('/logout', (req, res) => {
@@ -36,11 +38,13 @@ router.post('/login', async (req, res) => {
         return res.redirect('/');
       });
     } else {
-      return res.status(401).render('login', {
-        error: 'Usuari o contrasenya incorrectes'
-      });
+      req.session.toastr = {
+        type: 'error',
+        title: 'Error de login',
+        message: 'Usuari o contrasenya incorrectes'
+      };
+      return res.redirect('/login');
     }
-
   } catch (err) {
     console.error('❌ Error en login:', err);
     res.status(500).render('login', {

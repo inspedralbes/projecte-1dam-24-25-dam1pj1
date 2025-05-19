@@ -1,0 +1,108 @@
+<%- include('../partials/header', { title: "Dashboard Mafiós", bodyClass: 'bg-dark text-white bg-opacity-50' }) %>
+
+<div class="container py-4">
+  <h1 class="text-center mb-4">📊 Dashboard Mafiós</h1>
+
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-bg-dark p-3 mb-3">
+        <h5>Total Incidències</h5>
+        <p class="fs-2"><%= totalIncidencies %></p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-dark p-3 mb-3">
+        <h5>Total Actuacions</h5>
+        <p class="fs-2"><%= actuacionsTotals %></p> <!-- CORREGIDO -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-dark p-3 mb-3">
+        <h5>Temps Mitjà per Actuació</h5>
+        <p class="fs-2"><%= tempsMitja %> h</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-6 mb-4">
+      <canvas id="incidenciesPerDepartament"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+      <canvas id="incidenciesPerEstat"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+      <canvas id="actuacionsPerTecnic"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+      <canvas id="incidenciesPerMes"></canvas>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h5>📈 Top 5 Departaments amb més incidències</h5>
+      <ul class="list-group">
+        <% topDepartaments.forEach(dep => { %>
+          <li class="list-group-item bg-dark text-white">
+            Dpt <%= dep.id_dpt %> - <%= dep['departament.nom'] %>: <strong><%= dep.total %></strong> incidències
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <h5>🧑‍🔧 Tècnic més actiu</h5>
+      <p class="fs-4">🔝 <strong><%= tecnicTop[0].tecnic.nom %></strong> amb <strong><%= tecnicTop[0].total %></strong> actuacions</p>
+
+      <h5 class="mt-4">🕵️‍♂️ Últimes 5 incidències</h5>
+      <ul class="list-group">
+        <% ultimesIncidencies.forEach(inc => { %>
+          <li class="list-group-item bg-dark text-white">
+            #<%= inc.id_incidencia %> - <%= inc.descripcio %> (<%= inc.estat %>) - <%= new Date(inc.createdAt).toLocaleDateString() %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const chartConfig = (ctx, label, labels, data, bgColor = 'rgba(54, 162, 235, 0.6)') => ({
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ label, data, backgroundColor: bgColor }]
+    },
+    options: { responsive: true }
+  });
+
+  new Chart(document.getElementById('incidenciesPerDepartament'), chartConfig(
+    'departaments', 'Incidències per Departament',
+    <%- JSON.stringify(incidenciesPerDepartament.map(d => 'Dpt ' + d.id_dpt)) %>,
+    <%- JSON.stringify(incidenciesPerDepartament.map(d => d.total)) %>
+  ));
+
+  new Chart(document.getElementById('incidenciesPerEstat'), chartConfig(
+    'estat', 'Incidències per Estat',
+    <%- JSON.stringify(incidenciesPerEstat.map(e => e.estat)) %>,
+    <%- JSON.stringify(incidenciesPerEstat.map(e => e.total)) %>,
+    'rgba(255, 206, 86, 0.6)'
+  ));
+
+  new Chart(document.getElementById('actuacionsPerTecnic'), chartConfig(
+    'tecnics', 'Actuacions per Tècnic',
+    <%- JSON.stringify(actuacionsPerTecnic.map(t => t['tecnic.nom'])) %>,
+    <%- JSON.stringify(actuacionsPerTecnic.map(t => t.total)) %>,
+    'rgba(75, 192, 192, 0.6)'
+  ));
+
+  new Chart(document.getElementById('incidenciesPerMes'), chartConfig(
+    'mesos', 'Incidències per Mes',
+    <%- JSON.stringify(incidenciesPerMes.map(m => 'Mes ' + m.mes)) %>,
+    <%- JSON.stringify(incidenciesPerMes.map(m => m.total)) %>,
+    'rgba(153, 102, 255, 0.6)'
+  ));
+</script>
+
+<%- include('../partials/footer') %>

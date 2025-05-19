@@ -10,7 +10,7 @@ const Actuacio = require('../models/Actuacions');
 const { checkAuth } = require('../middleware/auth'); // 💥 Importamos el middleware de auth
 
 // LISTAR INCIDÈNCIES (público)
-router.get('/', async (req, res) => {
+router.get('/' , checkAuth, async (req, res) => {
   try {
     const whereCondition = {};
     if (req.query.estat) {

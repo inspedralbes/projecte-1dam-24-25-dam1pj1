@@ -41,6 +41,7 @@ Tecnic.hasMany(Actuacio, { foreignKey: 'tecnic_id', as: 'actuacions' });
 const incidenciaRoutesEJS = require('./routes/incidenciesEJS.routes');
 const incidenciaRoutesEJS_user = require('./routes/incidenciesEJS_user.routes');
 const authRoutes = require('./routes/auth');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -72,6 +73,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/incidencies', incidenciaRoutesEJS);
 app.use('/incidencies_user', incidenciaRoutesEJS_user);
 app.use('/', authRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 // Ruta d'inici
 app.get('/', async (req, res) => {
